@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./target/h2db/db/accesst;DB_CLOSE_ON_EXIT=FALSE
+    username: access
+    password:
+    driver-class: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+
+camunda.bpm:
+
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+
+  authorization:
+    enabled: true
+
+server:
+  port: 8080
+
+key.regEnabled: false
+
+
+logging:
+  level:
+    com:
+      baeldung: INFO
+    root: INFO

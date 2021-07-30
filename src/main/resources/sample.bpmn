@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="_ll67ABGYEeW7xqkBzIjHqw" targetNamespace="http://camunda.org/schema/1.0/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="Sample" name="Sample" isExecutable="true">
+    <bpmn2:sequenceFlow id="SequenceFlow_3" name="" sourceRef="ServiceTask_1" targetRef="Gateway_One" />
+    <bpmn2:endEvent id="EndEvent_1">
+      <bpmn2:incoming>Flow_0owsk0i</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:serviceTask id="ServiceTask_1" name="say hello" camunda:async="true" camunda:delegateExpression="${sayHelloDelegate}">
+      <bpmn2:incoming>Flow_1hbhkvj</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="Flow_1w6lt0s" sourceRef="UserTask_2" targetRef="ServiceTask_2" />
+    <bpmn2:userTask id="UserTask_2" name="to do" camunda:candidateUsers="test" camunda:candidateGroups="testing">
+      <bpmn2:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="userName" type="string" defaultValue="${currentUser()}" />
+        </camunda:formData>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>Flow_1tuwopv</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1w6lt0s</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" sourceRef="StartEvent_1" targetRef="ReciveTask" />
+    <bpmn2:sequenceFlow id="Flow_1hbhkvj" sourceRef="ReciveTask" targetRef="ServiceTask_1" />
+    <bpmn2:receiveTask id="ReciveTask" name="test message" messageRef="Message_0nv19fk">
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1hbhkvj</bpmn2:outgoing>
+    </bpmn2:receiveTask>
+    <bpmn2:exclusiveGateway id="Gateway_One" name="one?">
+      <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1tuwopv</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_0hhiifp</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="Flow_1tuwopv" name="да" sourceRef="Gateway_One" targetRef="UserTask_2">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${One}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="Flow_0hhiifp" name="нет" sourceRef="Gateway_One" targetRef="UserTask_3">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${!One}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:exclusiveGateway id="Gateway_0tgagb3">
+      <bpmn2:incoming>Flow_10s5fkj</bpmn2:incoming>
+      <bpmn2:incoming>Flow_1c74d80</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0owsk0i</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="Flow_10s5fkj" sourceRef="UserTask_3" targetRef="Gateway_0tgagb3" />
+    <bpmn2:sequenceFlow id="Flow_0owsk0i" sourceRef="Gateway_0tgagb3" targetRef="EndEvent_1" />
+    <bpmn2:userTask id="UserTask_3" name="not to do">
+      <bpmn2:incoming>Flow_0hhiifp</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_10s5fkj</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:serviceTask id="ServiceTask_2" name="get user&#10;" camunda:async="true" camunda:delegateExpression="${getUserDelegate}">
+      <bpmn2:incoming>Flow_1w6lt0s</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1c74d80</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="Flow_1c74d80" sourceRef="ServiceTask_2" targetRef="Gateway_0tgagb3" />
+  </bpmn2:process>
+  <bpmn2:message id="Message_0mz7sf5" name="TestMessage" />
+  <bpmn2:message id="Message_0yckgwe" name="TestMessage" />
+  <bpmn2:message id="Message_149wmai" name="Test" />
+  <bpmn2:message id="Message_0nv19fk" name="TestMessage" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Sample">
+      <bpmndi:BPMNEdge id="Flow_0owsk0i_di" bpmnElement="Flow_0owsk0i">
+        <di:waypoint x="955" y="115" />
+        <di:waypoint x="1012" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10s5fkj_di" bpmnElement="Flow_10s5fkj">
+        <di:waypoint x="730" y="230" />
+        <di:waypoint x="930" y="230" />
+        <di:waypoint x="930" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hhiifp_di" bpmnElement="Flow_0hhiifp">
+        <di:waypoint x="560" y="140" />
+        <di:waypoint x="560" y="230" />
+        <di:waypoint x="630" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="566" y="182" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tuwopv_di" bpmnElement="Flow_1tuwopv">
+        <di:waypoint x="585" y="115" />
+        <di:waypoint x="630" y="115" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="602" y="97" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hbhkvj_di" bpmnElement="Flow_1hbhkvj">
+        <di:waypoint x="330" y="115" />
+        <di:waypoint x="391" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1">
+        <di:waypoint x="191" y="115" />
+        <di:waypoint x="230" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1w6lt0s_di" bpmnElement="Flow_1w6lt0s">
+        <di:waypoint x="730" y="115" />
+        <di:waypoint x="760" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3">
+        <di:waypoint x="491" y="115" />
+        <di:waypoint x="535" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1c74d80_di" bpmnElement="Flow_1c74d80">
+        <di:waypoint x="860" y="115" />
+        <di:waypoint x="905" y="115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_2" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="391" y="75" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xkgbk7_di" bpmnElement="UserTask_2">
+        <dc:Bounds x="630" y="75" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_3" bpmnElement="StartEvent_1">
+        <dc:Bounds x="155" y="97" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hy5fjt_di" bpmnElement="ReciveTask">
+        <dc:Bounds x="230" y="75" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_153508a_di" bpmnElement="Gateway_One" isMarkerVisible="true">
+        <dc:Bounds x="535" y="90" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="548" y="60" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02juh2z_di" bpmnElement="UserTask_3">
+        <dc:Bounds x="630" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_EndEvent_3" bpmnElement="EndEvent_1">
+        <dc:Bounds x="1012" y="97" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0tgagb3_di" bpmnElement="Gateway_0tgagb3" isMarkerVisible="true">
+        <dc:Bounds x="905" y="90" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ni81j9_di" bpmnElement="ServiceTask_2">
+        <dc:Bounds x="760" y="75" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
